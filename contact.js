@@ -17,7 +17,15 @@ function listContacts() {
   }
   
   function getContactById(contactId) {
-    // ...your code
+      fs.readFile(contactsPath, 'utf-8', (err, contactId) => {
+        if(err){
+          console.error(err);
+          return;
+        }
+      const getContactById = JSON.parse(contactId);
+      console.table(contactId);
+      })
+      
   }
   
   function removeContact(contactId) {
