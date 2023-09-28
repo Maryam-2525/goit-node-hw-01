@@ -22,7 +22,7 @@ function listContacts() {
           console.error(err);
           return;
         }
-      const getContactById = JSON.parse(contactId);
+      const contactId = JSON.parse(contactId);
       console.table(contactId);
       })
       
