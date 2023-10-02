@@ -5,7 +5,7 @@ const path = require('path');
 const contactsPath = path.join(__dirname, 'db', 'contacts.json');
 
 function listContacts() {
-    fs.readFile(contactsPath, 'utf-8', (err, data) => {
+    fs.readFile(contactsPath,  (err, data) => {
         if(err){
             console.error(err);
             return;
@@ -23,7 +23,7 @@ function listContacts() {
           return;
         }
       const contacts = JSON.parse(data);
-      const contact = contact.find(c => c.id === contactId);
+      const contact = contacts.find(c => c.id === contactId);
 
       if(contact){
         console.table([contact]);
@@ -41,39 +41,48 @@ function listContacts() {
         return;
       }
     const contacts = JSON.parse(data);
-    const contact = contact.fs.unlink(c => c.id === contactId);
+    const contact = contacts.filter(c => c.id === contactId);
 
     if(contact){
       console.table([contact]);
     }else{
-      console.log(`contact with this ID ${contactId} is not found.`)
+      console.log(`contact with this ID ${contactId} cannot be removed.`)
     }
     })
   }
   
   function addContact(name, email, phone) {
-      fs.writeFile(contactsPath, 'utf-8', (err, data)  => {
-        if(err){
-          console.error(err);
-          return;
+    fs.readFile(contactsPath, 'utf-8', (err, data) => {
+      if(err){
+        console.error(err);
+        return;
+      }
+
+      const contacts = JSON.parse(data);
+
+      const newContact = {
+        id: Date.now().toString(),
+        name: name,
+        email: email,
+        phone: phone,
+      }
+      
+      contacts.push(newContact);
+
+      fs.writeFile( 
+        contactsPath, JSON.stringify(contacts, null, 2), "utf-8", 
+        (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          console.log(`contact added:`);
+          console.table([newContact]);
         }
-       
-      const contacts = JSON.parse(data); 
-      let data = {
-        "id": " ",
-        "name": " ",
-        "email": " ",
-        "phone": " "
-      };
-      const contact = contact.JSON.push(data);
-      if(contact){
-        console.table([contact]);
-      }else{
-        console.log(`this contact cannot be add`)
+      );
+  })
 
-      })
-
-  }
+}
 
   module.exports = {
     listContacts,
