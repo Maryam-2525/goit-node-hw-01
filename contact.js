@@ -1,3 +1,4 @@
+const { error } = require('console');
 const fs = require('fs');
 const path = require('path');
 
@@ -43,11 +44,15 @@ function listContacts() {
     const contacts = JSON.parse(data);
     const contact = contacts.filter(c => c.id === contactId);
 
-    if(contact){
-      console.table([contact]);
-    }else{
-      console.log(`contact with this ID ${contactId} cannot be removed.`)
-    }
+    fs.writeFile( 
+      contactsPath, JSON.stringify(contacts, null, 2), "utf-8", 
+      (err) => {
+        if (err) {
+          console.error(error);
+        }
+        console.log(`contact with the ${contactId} has been removed`);
+      }
+    ) 
     })
   }
   
