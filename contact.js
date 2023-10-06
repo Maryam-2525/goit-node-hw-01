@@ -24,7 +24,7 @@ function listContacts() {
           return;
         }
       const contacts = JSON.parse(data);
-      const contact = contacts.find(c => c.id === contactId);
+      const contact = contacts.find(c => c.id === contactId.toString());
 
       if(contact){
         console.table([contact]);
@@ -42,18 +42,18 @@ function listContacts() {
         return;
       }
     const contacts = JSON.parse(data);
-    const contact = contacts.filter(c => c.id === contactId);
+    const updatedContacts = contacts.filter((c) => c.id !== contactId.toString());
 
     fs.writeFile( 
-      contactsPath, JSON.stringify(contacts, null, 2), "utf-8", 
+      contactsPath, JSON.stringify(updatedContacts, null, 2), "utf-8", 
       (err) => {
         if (err) {
           console.error(error);
         }
         console.log(`contact with the ${contactId} has been removed`);
       }
-    ) 
-    })
+    ); 
+    });
   }
   
   function addContact(name, email, phone) {
